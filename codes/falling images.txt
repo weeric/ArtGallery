@@ -1,0 +1,60 @@
+<div id="falling-images">
+</div>
+
+<script>
+  var container = document.getElementById("falling-images");
+
+  for (var i = 0; i < 10; i++) {
+    var randomImage = approvedArtworks[Math.floor(Math.random() * approvedArtworks.length)];
+
+    var img = document.createElement("img");
+    img.src = "images/" + randomImage.image;
+    img.classList.add("falling-image");
+
+    container.appendChild(img);
+  }
+</script>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+// Get a random image from the approved artworks array
+var approvedArtworks = <?php echo $approved_artworks_json; ?>;
+var randomImage = approvedArtworks[Math.floor(Math.random() * approvedArtworks.length)];
+
+// Create an image element and set its src to the URL of the random image
+var img = document.createElement("img");
+img.src = "images/" + randomImage.image;
+img.classList.add("falling-image");
+
+// Add the image to the page
+document.body.appendChild(img);
+</script>
+
+
+
+
+
+<style>
+.falling-image {
+  position: absolute;
+  animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+</style>
