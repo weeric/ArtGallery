@@ -27,6 +27,7 @@ If you're an artist who is interested in having your work featured in our galler
                         echo '<img src="images/' . htmlspecialchars($artwork['image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '">' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</li>';
                         echo '<h3>' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</h3>';
                         echo '<p>By ' . htmlspecialchars($artwork['artist'], ENT_QUOTES) . '</p>';
+                        echo '<a href="artwork.php?id=' . $artwork['id'] . '">View</a>';
                         echo '</div>';
                     }
                 } else {
