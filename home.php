@@ -9,20 +9,34 @@ If you're an artist who is interested in having your work featured in our galler
 
 
 
-        <div class="col-md-6">
-            <h2>Newly Submitted Artworks</h2>
-            <div class="card-container">
-            <?php
-                $query = "SELECT * FROM artworks WHERE status = 'approved' ORDER BY created_at DESC LIMIT 6";
-                $result = mysqli_query($conn, $query);
-                while($artwork = mysqli_fetch_assoc($result)) {
-                    echo '<div class="card">';
-                    echo '<img src="images/' . $artwork['image'] . '" alt="' . $artwork['title'] . '">' . $artwork['title'] . '</li>';
-                    echo '<h3>' . $artwork['title'] . '</h3>';
-                    echo '<p>By ' . $artwork['artist'] . '</p>';
-                    echo '</div>';
+    <div class="col-md-6">
+        <h2>Newly Submitted Artworks</h2>
+        <div class="card-container">
+        <?php
+            // Prepare statement to prevent SQL injection
+            $query = "SELECT * FROM artworks WHERE status = ? ORDER BY created_at DESC LIMIT 6";
+            $stmt = mysqli_prepare($conn, $query);
+            // Bind status parameter and execute statement
+            mysqli_stmt_bind_param($stmt, "s", $status);
+            $status = 'approved';
+            if(mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+                if(mysqli_num_rows($result) > 0) {
+                    while($artwork = mysqli_fetch_assoc($result)) {
+                        echo '<div class="card">';
+                        echo '<img src="images/' . htmlspecialchars($artwork['image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '">' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</li>';
+                        echo '<h3>' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</h3>';
+                        echo '<p>By ' . htmlspecialchars($artwork['artist'], ENT_QUOTES) . '</p>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<p>No artworks found.</p>';
                 }
-            ?>
+            } else {
+                echo '<p>An error occurred while retrieving the artworks.</p>';
+            }
+            mysqli_stmt_close($stmt);
+        ?>
 
 
 
