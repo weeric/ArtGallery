@@ -31,7 +31,29 @@ if ($user_role == 'admin') {
     <?php foreach ($artworks as $artwork): ?>
     <tr>
         <td><?php echo $artwork['title']; ?></td>
-        <td><img src="images/<?php echo $artwork['image']; ?>" alt="<?php echo $artwork['title']; ?>" width="100"></td>
+        <td>
+        <?php 
+        $ext = pathinfo($artwork['image'], PATHINFO_EXTENSION);
+        switch ($ext) {
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                echo '<img src="images/'.htmlspecialchars($artwork['image'], ENT_QUOTES).'" alt="'.$artwork['title'].'" width="100">';
+                break;
+            case 'mp4':
+                echo '<div class="card-video">
+                        <video width="100" height="100" controls>
+                            <source src="images/'.htmlspecialchars($artwork['image'], ENT_QUOTES).'" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                      </div>';
+                break;
+            default:
+                echo 'File type not supported';
+                break;
+        }
+        ?>
+        </td>
         <td><?php echo $artwork['description']; ?></td>
         <td>
             <?php if ($user_role == 'admin' || $user_id == $artwork['artist_id']): ?>
@@ -42,7 +64,3 @@ if ($user_role == 'admin') {
     </tr>
     <?php endforeach; ?>
 </table>
-<?php if ($user_role != 'admin'): ?>
-Copy code
-<a href="submit-artwork.php">Submit New Artwork</a>
-<?php endif; ?>
