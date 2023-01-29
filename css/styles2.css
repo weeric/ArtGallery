@@ -215,6 +215,15 @@ form {
     overflow: hidden;
 }
 
+.card a p {
+    color: rgb(246, 14, 226);
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 18px;
+    padding: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
+
 
 .container {
     padding-top: 80px;
