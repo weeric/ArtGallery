@@ -12,6 +12,8 @@ If you're an artist who is interested in having your work featured in our galler
     <div class="col-md-6">
         <h2>Newly Submitted Artworks</h2>
         <div class="card-container">
+
+
         <?php
             // Prepare statement to prevent SQL injection
             $query = "SELECT * FROM artworks WHERE status = ? ORDER BY created_at DESC LIMIT 6";
@@ -24,10 +26,16 @@ If you're an artist who is interested in having your work featured in our galler
                 if(mysqli_num_rows($result) > 0) {
                     while($artwork = mysqli_fetch_assoc($result)) {
                         echo '<div class="card">';
-                        echo '<img src="images/' . htmlspecialchars($artwork['image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '">' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</li>';
+                        $file_ext = pathinfo($artwork['image'], PATHINFO_EXTENSION);
+                        if ($file_ext == "jpg" || $file_ext == "png") {
+                            echo '<img src="images/' . htmlspecialchars($artwork['image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '">' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</li>';
+                        } elseif ($file_ext == "mp4") {
+                            echo '<video src="images/' . htmlspecialchars($artwork['image'], ENT_QUOTES) . '" alt="' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '" controls></video>';
+                        }
                         echo '<h3>' . htmlspecialchars($artwork['title'], ENT_QUOTES) . '</h3>';
                         echo '<p>By ' . htmlspecialchars($artwork['artist'], ENT_QUOTES) . '</p>';
                         echo '<a href="artwork.php?id=' . $artwork['id'] . '">View</a>';
+                        echo '<a href="review.php?id=' . $artwork['id'] . '">Leave a Review</a>';
                         echo '</div>';
                     }
                 } else {
@@ -38,8 +46,6 @@ If you're an artist who is interested in having your work featured in our galler
             }
             mysqli_stmt_close($stmt);
         ?>
-
-
 
 
 
