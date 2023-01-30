@@ -6,6 +6,8 @@ function getContent($page) {
             return 'home.php';
         case 'leaderboard':
             return 'leaderboard.php';
+        case 'review-artwork':
+            return 'review-artwork.php';
         case 'dashboard':
             return 'dashboard.php';
         case 'moderation':
