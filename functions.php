@@ -127,6 +127,8 @@ function getFeaturedArtworks() {
     return $artworks;
 }
 
+
+
 // Get all approved artworks
 $query = "SELECT * FROM artworks WHERE status = 'approved'";
 $approved_artworks_result = mysqli_query($conn, $query);
