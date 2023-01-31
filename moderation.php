@@ -31,6 +31,7 @@ if ($user_role != 'admin' && $user_role != 'artist') {
             <td>
                 <button onclick="approve(<?php echo $submission['id']; ?>)">Approve</button>
                 <button onclick="reject(<?php echo $submission['id']; ?>)">Reject</button>
+                <button onclick="deleteArtwork(<?php echo $submission['id']; ?>)">Delete</button>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -93,6 +94,23 @@ function reject(id) {
         }
     }
     xhr.send('id=' + id + '&status=rejected');
+}
+
+function deleteArtwork(id) {
+var xhr = new XMLHttpRequest();
+xhr.open('POST', 'delete-artwork.php', true);
+xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhr.onreadystatechange = function() {
+if (xhr.readyState === 4 && xhr.status === 200) {
+var response = JSON.parse(xhr.response);
+if(response.status === 'success') {
+location.reload();
+} else {
+alert(response.message);
+}
+}
+}
+xhr.send('id=' + id);
 }
 
 </script>
